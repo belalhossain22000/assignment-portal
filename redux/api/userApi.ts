@@ -10,20 +10,7 @@ const usersApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Users"],
     }),
-    getUsersByEmail: build.query({
-      query: (email) => ({
-        url: `/users?email=${email}`,
-        method: "GET",
-      }),
-      providesTags: ["Users"],
-    }),
-    getUsersByRole: build.query({
-      query: () => ({
-        url: `/users?role=ADMIN`,
-        method: "GET",
-      }),
-      providesTags: ["Users"],
-    }),
+   
     getUserById: build.query({
       query: (id) => ({
         url: `/users/${id}`,
@@ -78,8 +65,6 @@ export const {
   useGetUserByIdQuery,
   useUpdateUsersProfileMutation,
   useUpdateUserMutation,
-  useGetUsersByEmailQuery,
-  useGetUsersByRoleQuery,
   useUpdateUserByIdMutation 
   ,
 } = usersApi;

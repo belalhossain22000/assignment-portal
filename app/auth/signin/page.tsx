@@ -9,13 +9,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select" // Removed Select import
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export default function SignIn() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [role, setRole] = useState("")
+  // const [role, setRole] = useState("") // Removed role state
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
@@ -29,7 +29,7 @@ export default function SignIn() {
       const result = await signIn("credentials", {
         email,
         password,
-        role,
+        // role, // Removed role from signIn call
         redirect: false,
       })
 
@@ -82,18 +82,7 @@ export default function SignIn() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="role">Role</Label>
-              <Select value={role} onValueChange={setRole} required>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select your role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="student">Student</SelectItem>
-                  <SelectItem value="instructor">Instructor</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            {/* Removed Role Select Section */}
 
             {error && (
               <Alert variant="destructive">
@@ -115,7 +104,8 @@ export default function SignIn() {
               <p>
                 <strong>Student:</strong> student@demo.com / password
               </p>
-              <p className="mt-2 text-blue-600">Or create a new account by entering any email/password with a role.</p>
+              {/* Updated demo text */}
+              <p className="mt-2 text-blue-600">Use the email and password above. Your role is determined automatically.</p>
             </div>
           </div>
         </CardContent>

@@ -18,7 +18,7 @@ const authApi = baseApi.injectEndpoints({
     register: build.mutation({
       query: (data: any) => {
         return {
-          url: `/users`,
+          url: `/users/register`,
           method: "POST",
           body: data,
         };
@@ -63,24 +63,7 @@ const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["Auth"],
     }),
 
-    // verify email
-    verifyEmail: build.mutation({
-      query: ({ userId, data }) => ({
-        url: `/users/verify-otp/${userId}`,
-        method: "PUT",
-        body: data,
-      }),
-      invalidatesTags: ["Auth"],
-    }),
-
-    // resend OTP
-    resendOtp: build.query({
-      query: ({ userId }) => ({
-        url: `/users/otp/resend-otp/${userId}`,
-        method: "GET",
-      }),
-      providesTags: ["Auth"],
-    }),
+    
   }),
 });
 
@@ -91,6 +74,4 @@ export const {
   useChangePasswordMutation,
   useGetMyProfileQuery,
   useResetPasswordMutation,
-  useVerifyEmailMutation,
-  useLazyResendOtpQuery,
 } = authApi;

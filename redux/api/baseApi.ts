@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.dream2drive.com.au/api/v1",
+    baseUrl: "https://assignment-portal-server-nine.vercel.app/api/v1",
     // baseUrl: "http://localhost:3000/api/v1",
     prepareHeaders: (headers: any) => {
       const token = localStorage.getItem("token");
