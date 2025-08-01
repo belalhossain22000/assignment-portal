@@ -5,7 +5,7 @@ import setAccessToken from "./setAccessToken";
 
 export const userLogin = async (data: FieldValues) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/login`,
+    `https://assignment-portal-server-nine.vercel.app/api/v1/auth/login`,
     {
       method: "POST",
       headers: {
@@ -20,7 +20,7 @@ export const userLogin = async (data: FieldValues) => {
 
   if (userInfo?.data?.token) {
     setAccessToken(userInfo?.data?.token, {
-      redirect: "/profile",
+      redirect: "/",
     });
   }
 

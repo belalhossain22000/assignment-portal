@@ -2,7 +2,7 @@ export interface User {
   id: string
   name: string
   email: string
-  role: "instructor" | "student"
+  role: "INSTRUCTOR" | "STUDENT"
 }
 
 export interface Assignment {

@@ -6,6 +6,7 @@ import { decodedToken } from '@/utils/jwt';
 import { getFromLocalStorage, removeFromLocalStorage, setToLocalStorage } from '@/utils/local-storage';
 
 
+
 export const storeUserInfo = ({ token }: { token: string }) => {
  
    return setToLocalStorage(authKey, token);
@@ -13,7 +14,7 @@ export const storeUserInfo = ({ token }: { token: string }) => {
 
 export const getUserInfo = () => {
    const authToken = getFromLocalStorage(authKey);
- 
+ console.log(authToken);
    if (authToken) {
       const decodedData: any = decodedToken(authToken);
       return {

@@ -11,6 +11,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label"
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select" // Removed Select import
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { userLogin } from "@/service/actions/userLogin"
+import { toast } from "sonner"
+import { storeUserInfo } from "@/service/actions/auth.service"
 
 export default function SignIn() {
   const [email, setEmail] = useState("")
@@ -26,24 +29,26 @@ export default function SignIn() {
     setError("")
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        // role, // Removed role from signIn call
-        redirect: false,
-      })
-
-      if (result?.error) {
-        setError("Invalid credentials. Please try again.")
-      } else if (result?.ok) {
+      const res = await userLogin({ email, password });
+    
+      if (res?.success) {
+        toast.success(res?.message);
+        storeUserInfo({ token: res?.data?.token });
         // Wait a moment for session to be established
         setTimeout(() => {
           router.push("/")
           router.refresh()
         }, 100)
+        setIsLoading(false);
+      } else {
+        toast.error(res?.message);
+        setIsLoading(false);
       }
-    } catch (err) {
-      setError("An error occurred during sign in")
+      setError(res?.message || "An error occurred during sign in")
+
+
+    } catch (err: any) {
+      setError(err.message || "An error occurred during sign in")
     } finally {
       setIsLoading(false)
     }

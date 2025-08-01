@@ -1,14 +1,14 @@
 "use client"
 
-import { useSession, signOut } from "next-auth/react"
+import {  signOut } from "next-auth/react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { BookOpen, LogOut, User } from "lucide-react"
+import { getUserInfo } from "@/service/actions/auth.service"
 
 export function Navbar() {
-  const { data: session } = useSession()
+const user = getUserInfo();
 
-  if (!session) return null
 
   return (
     <nav className="border-b bg-white">
@@ -26,7 +26,7 @@ export function Navbar() {
             <Link href="/assignments">
               <Button variant="ghost">Assignments</Button>
             </Link>
-            {session.user.role === "instructor" && (
+            {user.role === "instructor" && (
               <Link href="/submissions">
                 <Button variant="ghost">Submissions</Button>
               </Link>
@@ -35,7 +35,7 @@ export function Navbar() {
             <div className="flex items-center space-x-2">
               <User className="h-4 w-4" />
               <span className="text-sm">
-                {session.user.name} ({session.user.role})
+                {user.name} ({user.role})
               </span>
             </div>
 

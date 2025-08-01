@@ -8,6 +8,8 @@ import { Plus, FileText, Clock, CheckCircle, XCircle, TrendingUp, Users, ArrowUp
 import { useUser } from "@/lib/user-context"
 import { mockAssignments, mockSubmissions } from "@/lib/mock-data"
 import Link from "next/link"
+import { get } from "http"
+import { getUserInfo } from "@/service/actions/auth.service"
 
 const COLORS = {
   pending: "#f59e0b",
@@ -16,7 +18,7 @@ const COLORS = {
 }
 
 export default function Dashboard() {
-  const { currentUser } = useUser()
+  const currentUser  = getUserInfo();
 
   // Calculate submission statistics
   const submissionStats = mockSubmissions.reduce(
@@ -35,7 +37,7 @@ export default function Dashboard() {
 
   // Get user-specific data
   const userSubmissions =
-    currentUser.role === "student" ? mockSubmissions.filter((s) => s.studentId === currentUser.id) : mockSubmissions
+    currentUser.role === "STUDENT" ? mockSubmissions.filter((s) => s.studentId === currentUser.id) : mockSubmissions
 
   const userAssignments = mockAssignments
 
@@ -63,10 +65,10 @@ export default function Dashboard() {
               Welcome back, {currentUser.name.split(" ")[0]}!
             </div>
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent mb-4">
-              {currentUser.role === "instructor" ? "Instructor Dashboard" : "Student Dashboard"}
+              {currentUser.role === "INSTRUCTOR" ? "Instructor Dashboard" : "Student Dashboard"}
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              {currentUser.role === "instructor"
+              {currentUser.role === "INSTRUCTOR"
                 ? "Manage assignments, review submissions, and track student progress with powerful analytics."
                 : "Track your assignment progress, view feedback, and stay on top of your academic journey."}
             </p>
@@ -85,7 +87,7 @@ export default function Dashboard() {
               <CardContent>
                 <div className="text-3xl font-bold text-gray-900">{userAssignments.length}</div>
                 <p className="text-xs text-gray-600 mt-1">
-                  {currentUser.role === "instructor" ? "Created by you" : "Available to you"}
+                  {currentUser.role === "INSTRUCTOR" ? "Created by you" : "Available to you"}
                 </p>
               </CardContent>
             </Card>
@@ -146,10 +148,10 @@ export default function Dashboard() {
                 <div>
                   <CardTitle className="text-xl font-bold text-gray-900">Recent Assignments</CardTitle>
                   <CardDescription className="text-gray-600">
-                    {currentUser.role === "instructor" ? "Your latest assignments" : "Available assignments"}
+                    {currentUser.role === "INSTRUCTOR" ? "Your latest assignments" : "Available assignments"}
                   </CardDescription>
                 </div>
-                {currentUser.role === "instructor" && (
+                {currentUser.role === "INSTRUCTOR" && (
                   <Link href="/assignments/create">
                     <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25">
                       <Plus className="w-4 h-4 mr-2" />
@@ -181,7 +183,7 @@ export default function Dashboard() {
                                   Overdue
                                 </Badge>
                               )}
-                              {currentUser.role === "student" && userSubmission && (
+                              {currentUser.role === "STUDENT" && userSubmission && (
                                 <Badge
                                   variant={
                                     userSubmission.status === "accepted"
@@ -202,7 +204,7 @@ export default function Dashboard() {
                                 <Clock className="w-4 h-4 mr-2" />
                                 Due: {new Date(assignment.deadline).toLocaleDateString()}
                               </div>
-                              {currentUser.role === "instructor" && (
+                              {currentUser.role === "INSTRUCTOR" && (
                                 <div className="flex items-center">
                                   <Users className="w-4 h-4 mr-2" />
                                   {assignmentSubmissions.length} submissions
@@ -211,7 +213,7 @@ export default function Dashboard() {
                             </div>
                           </div>
                           <div className="flex gap-2 ml-6">
-                            {currentUser.role === "student" && !userSubmission && !isOverdue && (
+                            {currentUser.role === "STUDENT" && !userSubmission && !isOverdue && (
                               <Link href={`/assignments/${assignment.id}/submit`}>
                                 <Button size="sm" className="shadow-sm">
                                   Submit
@@ -219,7 +221,7 @@ export default function Dashboard() {
                                 </Button>
                               </Link>
                             )}
-                            {currentUser.role === "instructor" && (
+                            {currentUser.role === "INSTRUCTOR" && (
                               <Link href={`/assignments/${assignment.id}/review`}>
                                 <Button size="sm" variant="outline" className="shadow-sm bg-transparent">
                                   Review ({assignmentSubmissions.length})
@@ -244,7 +246,7 @@ export default function Dashboard() {
             </Card>
 
             {/* Assignment Progress Chart */}
-            {currentUser.role === "instructor" && (
+            {currentUser.role === "INSTRUCTOR" && (
               <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="text-xl font-bold text-gray-900">Assignment Progress</CardTitle>
@@ -268,7 +270,7 @@ export default function Dashboard() {
             )}
 
             {/* Student Submissions */}
-            {currentUser.role === "student" && (
+            {currentUser.role === "STUDENT" && (
               <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="text-xl font-bold text-gray-900">My Recent Submissions</CardTitle>
@@ -372,7 +374,7 @@ export default function Dashboard() {
                 <CardTitle className="text-xl font-bold text-gray-900">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {currentUser.role === "instructor" ? (
+                {currentUser.role === "INSTRUCTOR" ? (
                   <>
                     <Link href="/assignments/create">
                       <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25">
