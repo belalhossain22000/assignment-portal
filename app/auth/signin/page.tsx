@@ -38,7 +38,7 @@ export default function SignIn() {
       } else if (result?.ok) {
         // Wait a moment for session to be established
         setTimeout(() => {
-          router.push("/dashboard")
+          router.push("/")
           router.refresh()
         }, 100)
       }

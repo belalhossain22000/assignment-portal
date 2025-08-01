@@ -4,13 +4,14 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { UserProvider } from "@/lib/user-context"
 import { Layout } from "@/components/layout"
+import Providers from "@/lib copy/Providers"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Assignment Portal",
   description: "Student assignment submission and review portal",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -20,11 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <UserProvider>
-          <Layout>{children}</Layout>
-        </UserProvider>
-      </body>
+        <body className={inter.className}>
+      <Providers >
+          <UserProvider>
+            <Layout>{children}</Layout>
+          </UserProvider>
+      </Providers>
+        </body>
     </html>
   )
 }
